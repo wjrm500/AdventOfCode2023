@@ -1,10 +1,8 @@
 import math
 import os
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any
 
-INPUT_FILE = os.path.join(os.path.dirname(__file__), "input_example_1.txt")
+INPUT_FILE = os.path.join(os.path.dirname(__file__), "input_test.txt")
 
 with open(INPUT_FILE) as f:
     text = f.read()
@@ -82,7 +80,7 @@ class CategoryMap:
     def modulate_ranges_by(self, ranges_modulated_by: list[tuple[range, int]]) -> list[tuple[range, int]]:
         new_ranges_modulated_by = []
         for range_, modulated_by in ranges_modulated_by:
-            for modulator in category_map.modulators:
+            for modulator in self.modulators:
                 range_overlap = range(
                     max(range_.start, modulator.source_range_start),
                     min(range_.stop, modulator.source_range_end),
@@ -110,18 +108,13 @@ for map_text_section in maps_text_sections:
     category_map = CategoryMap(range_maps=range_maps)
     category_maps.append(category_map)
 
-def chunk_list(l: list[Any], n: int) -> list[list[Any]]:
-    for i in range(0, len(l), n): 
-        yield l[i:i + n]
-
 seeds_text_section = text_sections[0]
 seed_numbers = list(map(int, seeds_text_section.split(": ")[1].split()))
-seed_range_chunks = list(chunk_list(seed_numbers, 2))
 seed_ranges: list[range] = []
-for seed_range_chunk in seed_range_chunks:
+for i in range(0, len(seed_numbers) - 1, 2):
     seed_range = range(
-        seed_range_chunk[0],
-        seed_range_chunk[0] + seed_range_chunk[1],
+        seed_numbers[i],
+        seed_numbers[i] + seed_numbers[i + 1],
     )
     seed_ranges.append(seed_range)
 
