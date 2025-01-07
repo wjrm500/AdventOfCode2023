@@ -77,17 +77,19 @@ class CategoryMap:
             self._modulators = gap_free_modulators
         return self._modulators
     
-    def modulate_ranges_by(self, ranges_modulated_by: list[tuple[range, int]]) -> list[tuple[range, int]]:
-        new_ranges_modulated_by = []
-        for range_, modulated_by in ranges_modulated_by:
+    def map_ranges(self, ranges: list[range]) -> list[range]:
+        new_ranges = []
+        for range_ in ranges:
             for modulator in self.modulators:
                 range_overlap = range(
                     max(range_.start, modulator.source_range_start),
                     min(range_.stop, modulator.source_range_end),
                 )
                 if range_overlap.stop > range_overlap.start:
-                    new_ranges_modulated_by.append((range_overlap, modulated_by + modulator.modulate_by))
-        return new_ranges_modulated_by
+                    transformed_start = range_overlap.start + modulator.modulate_by
+                    transformed_end = range_overlap.stop + modulator.modulate_by
+                    new_ranges.append(range(transformed_start, transformed_end))
+        return new_ranges
 
 
 text_sections = text.split("\n\n")
@@ -118,12 +120,9 @@ for i in range(0, len(seed_numbers) - 1, 2):
     )
     seed_ranges.append(seed_range)
 
-ranges_modulated_by: list[tuple[range, int]] = [(seed_range, 0) for seed_range in seed_ranges]
+mapped_ranges = seed_ranges
 for category_map in category_maps:
-    ranges_modulated_by = category_map.modulate_ranges_by(ranges_modulated_by)
+    mapped_ranges = category_map.map_ranges(mapped_ranges)
 
-lowest_location_number_overall = math.inf
-for range_, modulated_by in ranges_modulated_by:
-    lowest_location_number_in_range = range_.start + modulated_by
-    lowest_location_number_overall = min(lowest_location_number_overall, lowest_location_number_in_range)
+lowest_location_number_overall = min(range_.start for range_ in mapped_ranges)
 print(lowest_location_number_overall)
