@@ -29,4 +29,4 @@ for game in games:
     game_id = int(game_intro.split()[1])
     id_sum += game_id if is_game_record_possible(game_record) else 0
 print(id_sum)
-# Answer: 2,164 - Correct
+# Correct

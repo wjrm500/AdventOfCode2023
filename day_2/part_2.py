@@ -22,4 +22,4 @@ for game in games:
     game_record = game.split(": ")[1]
     power_sum += power(game_record)
 print(power_sum)
-# Answer: 69,929 - Correct
+# Correct

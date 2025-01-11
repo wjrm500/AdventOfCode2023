@@ -15,4 +15,4 @@ input_lines = input_text.split("\n")
 input_sequences = [list(map(int, line.split())) for line in input_lines]
 sum = sum(evaluate(i) for i in input_sequences)
 print(sum)
-# Answer: 1,743,490,457 - Correct
+# Correct

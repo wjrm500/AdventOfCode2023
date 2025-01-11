@@ -32,4 +32,4 @@ for line in lines:
     last_found = number_word_to_digit_mapping.get(last_found, last_found)
     calibration_value_sum += int(first_found + last_found)
 print(calibration_value_sum)
-# Answer: 54,078 - Correct
+# Correct

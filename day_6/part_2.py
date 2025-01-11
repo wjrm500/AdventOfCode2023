@@ -22,4 +22,4 @@ for time, dist in time_dists:
         value -= 1
     values.append(value) 
 print(math.prod(values))
-# Answer: 38,220,708 - Correct
+# Correct

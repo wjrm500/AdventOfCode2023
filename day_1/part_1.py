@@ -20,4 +20,4 @@ for line in lines:
     calibration_value_sum += calibration_value
 
 print(calibration_value_sum)
-# Answer: 54,601 - Correct
+# Correct

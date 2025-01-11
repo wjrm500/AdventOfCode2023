@@ -57,4 +57,4 @@ total_count = 0
 for scratchcard_datum in scratchcard_data.values():
     total_count += scratchcard_datum["count"]
 print(total_count)
-# Answer: 9,997,537
+# Correct

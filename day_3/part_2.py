@@ -104,4 +104,4 @@ for line in matrix:
     for point in line:
         gear_ratio_sum += point.gear_ratio(matrix)
 print(gear_ratio_sum)
-# Answer: 73,201,705 - Correct
+# Correct

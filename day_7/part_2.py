@@ -52,4 +52,4 @@ for line in lines:
     hand_bids.append((hand, int(bid)))
 hand_bids.sort(key=lambda x: x[0])
 print(sum(i * hand_bid[1] for i, hand_bid in enumerate(hand_bids, 1)))
-# Answer: 248,750,699 - Correct
+# Correct

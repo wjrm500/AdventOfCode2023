@@ -17,4 +17,4 @@ for line in lines:
     points = int(math.pow(2, x - 1)) if x else 0
     total_points += points
 print(total_points)
-# Answer: 26,218 - Correct
+# Correct

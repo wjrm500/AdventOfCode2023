@@ -25,4 +25,4 @@ while current_node != "ZZZ":
     idx = 1 if instruction == "R" else 0
     current_node = node_dict[current_node][idx]
 print(steps)
-# Answer: 21,251 - Correct
+# Correct
