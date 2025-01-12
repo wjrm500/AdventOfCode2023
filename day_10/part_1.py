@@ -16,7 +16,6 @@ def find_start_position() -> tuple[int, int]:
             pipe = matrix[i][j]
             if pipe == "S":
                 return i, j
-    raise Exception("No starting point found")
 
 redirect_mapping = {
     ((-1, 0), "|"): (-1, 0),
@@ -33,7 +32,7 @@ redirect_mapping = {
     ((0, -1), "⌜"): (1, 0)
 }
 
-def complete_loop(position: tuple[int, int], direction: str) -> int:
+def get_loop_steps(position: tuple[int, int], direction: str) -> int:
     steps = 0
     while True:
         position = (position[0] + direction[0], position[1] + direction[1])
@@ -45,9 +44,9 @@ def complete_loop(position: tuple[int, int], direction: str) -> int:
 start_position = find_start_position()
 for direction in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
     try:
-        steps = complete_loop(start_position, direction)
+        loop_steps = get_loop_steps(start_position, direction)
         break
     except:
         continue
-print(int(steps / 2))
+print(int(loop_steps / 2))
 # Correct
