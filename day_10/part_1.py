@@ -25,59 +25,30 @@ direction_shift_mapping = {
     "W": (0, -1),
 }
 
+redirect_mapping = {
+    ("N", "|"): "N",
+    ("N", "⌜"): "E",
+    ("N", "⌝"): "W",
+    ("E", "-"): "E",
+    ("E", "⌟"): "N",
+    ("E", "⌝"): "S",
+    ("S", "|"): "S",
+    ("S", "⌞"): "E",
+    ("S", "⌟"): "W",
+    ("W", "-"): "W",
+    ("W", "⌞"): "N",
+    ("W", "⌜"): "S"
+}
+
 def complete_loop(position: tuple[int, int], direction: str) -> int:
     steps = 0
     while True:
         shift = direction_shift_mapping[direction]
-        next_pipe = matrix[position[0] + shift[0]][position[1] + shift[1]]
         position = (position[0] + shift[0], position[1] + shift[1])
         steps += 1
-        if next_pipe == "S":
+        if (pipe := matrix[position[0]][position[1]]) == "S":
             return steps
-        if direction == "N":
-            if next_pipe == "|":
-                continue
-            elif next_pipe == "⌜":
-                direction = "E"
-                continue
-            elif next_pipe == "⌝":
-                direction = "W"
-                continue
-            else:
-                raise Exception("Loop failed")
-        elif direction == "E":
-            if next_pipe == "-":
-                continue
-            elif next_pipe == "⌟":
-                direction = "N"
-                continue
-            elif next_pipe == "⌝":
-                direction = "S"
-                continue
-            else:
-                raise Exception("Loop failed")
-        elif direction == "S":
-            if next_pipe == "|":
-                continue
-            elif next_pipe == "⌞":
-                direction = "E"
-                continue
-            elif next_pipe == "⌟":
-                direction = "W"
-                continue
-            else:
-                raise Exception("Loop failed")
-        elif direction == "W":
-            if next_pipe == "-":
-                continue
-            elif next_pipe == "⌞":
-                direction = "N"
-                continue
-            elif next_pipe == "⌜":
-                direction = "S"
-                continue
-            else:
-                raise Exception("Loop failed")
+        direction = redirect_mapping[(direction, pipe)]
 
 start_position = find_start_position()
 for direction in ["N", "E", "S", "W"]:
