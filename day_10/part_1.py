@@ -13,45 +13,37 @@ def find_start_position() -> tuple[int, int]:
     for i in range(len(matrix)):
         line = matrix[i]
         for j in range(len(line)):
-            point = matrix[i][j]
-            if point == "S":
+            pipe = matrix[i][j]
+            if pipe == "S":
                 return i, j
     raise Exception("No starting point found")
 
-direction_shift_mapping = {
-    "N": (-1, 0),
-    "E": (0, 1),
-    "S": (1, 0),
-    "W": (0, -1),
-}
-
 redirect_mapping = {
-    ("N", "|"): "N",
-    ("N", "⌜"): "E",
-    ("N", "⌝"): "W",
-    ("E", "-"): "E",
-    ("E", "⌟"): "N",
-    ("E", "⌝"): "S",
-    ("S", "|"): "S",
-    ("S", "⌞"): "E",
-    ("S", "⌟"): "W",
-    ("W", "-"): "W",
-    ("W", "⌞"): "N",
-    ("W", "⌜"): "S"
+    ((-1, 0), "|"): (-1, 0),
+    ((-1, 0), "⌜"): (0, 1),
+    ((-1, 0), "⌝"): (0, -1),
+    ((0, 1), "-"): (0, 1),
+    ((0, 1), "⌟"): (-1, 0),
+    ((0, 1), "⌝"): (1, 0),
+    ((1, 0), "|"): (1, 0),
+    ((1, 0), "⌞"): (0, 1),
+    ((1, 0), "⌟"): (0, -1),
+    ((0, -1), "-"): (0, -1),
+    ((0, -1), "⌞"): (-1, 0),
+    ((0, -1), "⌜"): (1, 0)
 }
 
 def complete_loop(position: tuple[int, int], direction: str) -> int:
     steps = 0
     while True:
-        shift = direction_shift_mapping[direction]
-        position = (position[0] + shift[0], position[1] + shift[1])
+        position = (position[0] + direction[0], position[1] + direction[1])
         steps += 1
         if (pipe := matrix[position[0]][position[1]]) == "S":
             return steps
         direction = redirect_mapping[(direction, pipe)]
 
 start_position = find_start_position()
-for direction in ["N", "E", "S", "W"]:
+for direction in [(-1, 0), (0, 1), (1, 0), (0, -1)]:
     try:
         steps = complete_loop(start_position, direction)
         break
